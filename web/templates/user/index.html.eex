@@ -6,6 +6,8 @@
       <th>Name</th>
       <th>Email</th>
       <th>Reviewer</th>
+      <th>Reviewees</th>
+      <th>Has upcoming review</th>
 
       <th></th>
     </tr>
@@ -15,7 +17,15 @@
     <tr>
       <td><%= user.name %></td>
       <td><%= user.email %></td>
-      <td><%= user.reviewer_id %></td>
+      <td>
+        <%= if user.reviewer do %>
+          <%= user.reviewer.name %>
+        <% else %>
+          <em>No reviewer set</em>
+        <% end %>
+        <td><%= Enum.map(user.reviewees, fn r -> r.name end) %></td>
+      </td>
+      <td><%= has_upcoming_review?(user) %></td>
 
       <td class="text-right">
         <%= link "Show", to: user_path(@conn, :show, user), class: "btn btn-default btn-xs" %>

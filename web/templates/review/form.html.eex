@@ -1,0 +1,35 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :date_due, class: "control-label" %>
+    <%= datetime_select f, :date_due, class: "form-control", default: :calendar.local_time() %>
+    <%= error_tag f, :date_due %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :google_admin_review_link, class: "control-label" %>
+    <%= text_input f, :google_admin_review_link, class: "form-control" %>
+    <%= error_tag f, :google_admin_review_link %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :google_personal_reflection_link, class: "control-label" %>
+    <%= text_input f, :google_personal_reflection_link, class: "form-control" %>
+    <%= error_tag f, :google_personal_reflection_link %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :status, class: "control-label" %>
+    <%= text_input f, :status, class: "form-control" %>
+    <%= error_tag f, :status %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

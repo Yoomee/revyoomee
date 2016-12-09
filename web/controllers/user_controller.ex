@@ -4,14 +4,14 @@ defmodule Revyoomee.UserController do
   alias Revyoomee.User
 
   def index(conn, _params) do
-    users = Repo.all(User)
+    users = Repo.all(User) |> Repo.preload([:reviewer, :reviewees])
     render(conn, "index.html", users: users)
   end
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
     users = Repo.all(User)
-    render(conn, "new.html", users: users, changeset: changeset)
+    render(conn, "new.html", users: users, changeset: changeset, users: users)
   end
 
   def create(conn, %{"user" => user_params}) do
@@ -28,18 +28,19 @@ defmodule Revyoomee.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = User |> Repo.get!(id) |> Repo.preload([:reviewer, :reviewees])
     render(conn, "show.html", user: user)
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = User |> Repo.get!(id) |> Repo.preload([:reviewer])
+    users = Repo.all(User)
     changeset = User.changeset(user)
-    render(conn, "edit.html", user: user, changeset: changeset)
+    render(conn, "edit.html", user: user, changeset: changeset, users: users)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Repo.get!(User, id)
+    user = User |> Repo.get!(id) |> Repo.preload([:reviewer])
     changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do
@@ -48,7 +49,8 @@ defmodule Revyoomee.UserController do
         |> put_flash(:info, "User updated successfully.")
         |> redirect(to: user_path(conn, :show, user))
       {:error, changeset} ->
-        render(conn, "edit.html", user: user, changeset: changeset)
+        users = Repo.all(User)
+        render(conn, "edit.html", user: user, changeset: changeset, users: users)
     end
   end
 

@@ -14,7 +14,19 @@
 
   <li>
     <strong>Reviewer:</strong>
-    <%= @user.reviewer_id %>
+    <%= if @user.reviewer do %>
+      <%= @user.reviewer.name %>
+    <% else %>
+      No reviewer set
+    <% end %>
+  </li>
+  <li>
+    <strong>Reviewees:</strong>
+    <ul>
+      <%= for user <- Enum.map(@user.reviewees, fn r -> r.name end) do %>
+        <li><%= user %></li>
+      <% end %>
+    </ul>
   </li>
 
 </ul>

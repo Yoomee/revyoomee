@@ -1,0 +1,33 @@
+<h2>Show review</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @review.user_id %>
+  </li>
+
+  <li>
+    <strong>Date due:</strong>
+    <%= @review.date_due %>
+  </li>
+
+  <li>
+    <strong>Google admin review link:</strong>
+    <%= @review.google_admin_review_link %>
+  </li>
+
+  <li>
+    <strong>Google personal reflection link:</strong>
+    <%= @review.google_personal_reflection_link %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @review.status %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: review_path(@conn, :edit, @review) %>
+<%= link "Back", to: review_path(@conn, :index) %>

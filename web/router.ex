@@ -18,6 +18,7 @@ defmodule Revyoomee.Router do
 
     get "/", PageController, :index
     resources "/users", UserController
+    resources "/reviews", ReviewController
   end
 
   # Other scopes may use custom stacks.
